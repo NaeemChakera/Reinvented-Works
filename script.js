@@ -78,7 +78,7 @@ REINVENTED WORKS — script.js
 
   /* ── Scroll-reveal animations ── */
   const fadeEls = document.querySelectorAll(
-    '.feature-card, .compat-card, .step, .faq-item, .gallery-item, .design-img-wrap'
+    '.feature-card, .compat-card, .step, .faq-item, .gallery-item'
   );
 
   fadeEls.forEach(el => el.classList.add('fade-up'));
@@ -126,82 +126,6 @@ REINVENTED WORKS — script.js
     }, { threshold: 0.35 });
 
     sections.forEach(s => sectionObserver.observe(s));
-  }
-
-  /* ── Feature carousel ── */
-  const carousel = document.querySelector('[data-carousel]');
-  if (carousel) {
-    const track = carousel.querySelector('.design-carousel__track');
-    const slides = Array.from(carousel.querySelectorAll('.design-carousel__slide'));
-    const dots = Array.from(carousel.querySelectorAll('.design-carousel__dot'));
-    const prevButton = carousel.querySelector('[data-carousel-prev]');
-    const nextButton = carousel.querySelector('[data-carousel-next]');
-
-    let activeIndex = 0;
-    let startX = 0;
-    let deltaX = 0;
-
-    function updateDots(index) {
-      activeIndex = (index + slides.length) % slides.length;
-      dots.forEach((dot, dotIndex) => {
-        dot.classList.toggle('is-active', dotIndex === activeIndex);
-      });
-    }
-
-    function scrollToSlide(index) {
-      activeIndex = (index + slides.length) % slides.length;
-      slides[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-      updateDots(activeIndex);
-    }
-
-    function showNextSlide() {
-      scrollToSlide(activeIndex + 1);
-    }
-
-    function showPrevSlide() {
-      scrollToSlide(activeIndex - 1);
-    }
-
-    prevButton && prevButton.addEventListener('click', () => {
-      showPrevSlide();
-    });
-
-    nextButton && nextButton.addEventListener('click', () => {
-      showNextSlide();
-    });
-
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        scrollToSlide(Number(dot.dataset.carouselDot));
-      });
-    });
-
-    carousel.addEventListener('touchstart', (event) => {
-      startX = event.touches[0].clientX;
-      deltaX = 0;
-    }, { passive: true });
-
-    carousel.addEventListener('touchmove', (event) => {
-      deltaX = event.touches[0].clientX - startX;
-    }, { passive: true });
-
-    carousel.addEventListener('touchend', () => {
-      if (deltaX < -50) {
-        showNextSlide();
-      } else if (deltaX > 50) {
-        showPrevSlide();
-      }
-    });
-
-    track.addEventListener('scroll', () => {
-      const slideWidth = slides[0]?.getBoundingClientRect().width || 0;
-      if (!slideWidth) return;
-      const nearestIndex = Math.round(track.scrollLeft / slideWidth);
-      updateDots(Math.min(Math.max(nearestIndex, 0), slides.length - 1));
-    }, { passive: true });
-
-    track.scrollLeft = 0;
-    updateDots(0);
   }
 
   /* ── FAQ: close others when one opens ── */
