@@ -1,0 +1,8 @@
+name = "garmin-ai-coach"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Secrets (not stored in this file) - set them with:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put WATCH_TOKEN
